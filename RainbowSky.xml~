@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<panorama id="node1">
+  <input levelingpitch="0" leveltileurl="tiles/RainbowSky/cf_%c/l_%l/c_%x/tile_%y.jpg" levelingroll="0" height="4651" leveltilesize="510" levelbias="0.400" overlap="1" width="4651" levelbiashidpi="0.400">
+    <level predecode="0" preload="0" height="4651" width="4651"/>
+    <level predecode="0" preload="0" height="2325" width="2325"/>
+    <level predecode="0" preload="0" height="1162" width="1162"/>
+    <level predecode="0" preload="0" height="581" width="581"/>
+    <level predecode="1" preload="1" height="290" width="290"/>
+    <preview strip="1" color="0x808080"/>
+  </input>
+  <view pannorth="0" fovmode="0">
+    <start tilt="-0.13" fov="19" pan="55.39"/>
+    <min tilt="-90" fov="5" pan="0"/>
+    <max tilt="90" fov="120" pan="360"/>
+  </view>
+  <userdata comment="" latitude="" datetime="" longitude="" source="" description="" tags="LoonAgain" title="/home/bobby/Desktop/Pano/Causeway/LoonAgain/RainbowSky.tif" author="" copyright="" info=""/>
+  <hotspots height="20" wordwrap="1" width="180">
+    <label textcolor="0x000000" backgroundalpha="1" borderradius="1" bordercolor="0x000000" border="1" borderalpha="1" backgroundcolor="0xffffff" enabled="1" textalpha="1" height="20" wordwrap="1" width="180" background="1"/>
+    <polystyle backgroundalpha="0.2509803921568627" bordercolor="0x0000ff" borderalpha="1" backgroundcolor="0x0000ff" handcursor="1" mode="0"/>
+    <hotspot target="_blank" id="Point01" tilt="2.18" skinid="ht_url" description="" title="landing" url="Landing.xml" pan="95.36"/>
+    <hotspot target="_blank" id="Point02" tilt="4.06" skinid="ht_url" description="" title="Vollyball" url="FieldTop.xml" pan="90.5"/>
+    <hotspot target="_blank" id="Point03" tilt="-2.08" skinid="ht_url" description="" title="Splashing" url="SplashingWhiteSky.xml" pan="-67.87"/>
+  </hotspots>
+  <media>
+    <image clickmode="0" id="Element01" roty="0.000" tilt="-2.720" handcursor="0" fov="16.055" rotx="0.000" height="5184" stretch="1.000" width="3456" pan="56.800" rotz="2.000">
+      <source url="media/IMG_1834.JPG"/>
+    </image>
+  </media>
+  <transition type="crossdissolve" softedge="0" blendtime="1" zoomout="0" zoomfov="20" enabled="0" zoomspeed="2" zoomin="0" blendcolor="0x000000" zoomoutpause="1"/>
+  <control lockedkeyboard="0" dblclickfullscreen="0" speedwheel="1" invertwheel="0" invertcontrol="1" lockedkeyboardzoom="0" lockedmouse="0" lockedwheel="0" contextfullscreen="0" simulatemass="1" hideabout="0" sensitivity="8"/>
+</panorama>

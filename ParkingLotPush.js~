@@ -1,0 +1,27 @@
+
+// requires <script src="https://js.pusher.com/3.0/pusher.min.js"></script>
+
+ // Enable pusher logging - don't include this in production
+/***
+ Pusher.log = function(message) {
+      if (window.console && window.console.log) {
+        window.console.log(message);
+      }
+ };
+***/
+
+var pusher = new Pusher('95b5a3122e42176dd240', {
+	encrypted: true,
+	authEndpoint: '../_php/pusher_auth.php' // allows anything
+});
+
+var channel = pusher.subscribe('private-channel');
+	channel.bind('pusher:subscription_succeeded',function() {
+	var triggered = channel.trigger('client-arrived',{'where':'somewhere'});
+	console.log('subscription ok');
+});
+channel.bind('pusher:subscription_error',function(status) {
+	console.log('subscription error event');
+	console.log(status);
+});
+

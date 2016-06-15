@@ -1,0 +1,92 @@
+<?php
+$triggerStr = "TEXTyXml"; //"readyXml"; // I am using TEXT trigger string to get to this testing version.
+$triggerForLevels = "ready";
+$triggerForXml = "readyXml";
+session_start();
+$sesNonce = $_SESSION['nonce'];
+if (strlen($sesNonce)!=6) {
+ echo "NONCE ERROR";
+ // exit(); not while testing. 'sides, tests are not via page, so errereror allways.
+}
+echo "MOJOR MUNGING IN PROGRESS, CAUTION <BR> \n";
+echo "localhost htaccess added rewrite rule for ".$triggerStr." to here. \n";
+
+// header('Content-Type: text/xml; charset=UTF-8');
+header('Content-Type: text/plain; charset=UTF-8'); // CHANGE for debug. Be sure to set to correct xml above
+// TODO make this more portatble. No more hardcoded address swaps, need to do local testing.
+
+$server = $_SERVER['SERVER_NAME']; // www.repeatingshadow.com
+$uri = $_SERVER['REQUEST_URI'];
+
+$pos = strpos($uri,$triggerStr); 
+$tailURI = substr($uri,$pos+strlen($triggerStr)+1);
+$antiTail = substr($uri,0,$pos);
+// should detect https, but I am not using it (yet)
+$redirecturl = "http://".$server.$antiTail.$triggerForLevels; // gives http://localhost/Output/ready
+echo "server:".$server."\n";
+echo "uri:".$uri."\n";
+echo "tail:".$tailURI."\n";
+echo "aunti:".$antiTail."\n";
+echo "redirecturl:".$redirecturl."\n";
+/**
+server:localhost
+uri:/Output/TEXTyXml/http://www.repeatingshadow.com/Output/Causeway.xml
+tail:http://www.repeatingshadow.com/Output/Causeway.xml
+aunti:/Output/
+redirecturl:http://localhost/Output/ready
+**/
+
+$theXml = file_get_contents($tailURI);
+
+echo $theXml;
+
+$newtail = preg_replace('/pano\.xml/i','',$tailURI); // remove 'pano.xml' from the url
+// now replace all leveltileurl with redirect
+$xml1 = preg_replace('/ leveltileurl="/i', ' leveltileurl="'.$redirecturl'.$newtail, $theXml);
+
+// and then the values of all url= statements for jpg
+$replacement = ' url="'.$newtail.'$1';					// TROUBLE, WHAT ABOUT OTHER IMAGE FORMATS, EH??
+$newxml = preg_replace('/ url="(.*jpg)/i', $replacement, $xml1);
+
+// ok, I used preg_replace to swap in my cors bypass urls for the links. 
+// now need to locate the hotspots where I can insert my return link.
+$con = new DOMDocument(); // SimpleXMLElement($theXml); no so much. Use DOM
+$con->loadXML($newxml); // need a dtd doco for ($con->validate()), so no validate, ok?
+
+
+$panos = $con->getElementsByTagName('panorama');
+$hotspots = $panos->item(0)->getElementsByTagName('hotspots');
+$firsthot = $hotspots->item(0)->getElementsByTagName('hotspot')->item(0);
+$newhot = $con->createElement('hotspot');
+
+$a1 = $con->createAttribute('title');
+$a1->value = 'RETURN TO PARKING LOT';
+$newhot->appendChild($a1);
+$a2 = $con->createAttribute('url');
+$a2->value = 'http://'.$server.$antiTail.'ParkingLotPush.php';
+$newhot->appendChild($a2);
+$a3 = $con->createAttribute('tilt');
+$a3->value = '90';
+$newhot->appendChild($a3);
+$a4 = $con->createAttribute('pan');
+$a4->value = '0';
+$newhot->appendChild($a4);
+$a5 = $con->createAttribute('id');
+$a5->value = 'ReturnPoint01';
+$newhot->appendChild($a5);
+$a6 = $con->createAttribute('description');
+$a6->value = 'RETURN TO PARKING LOT';
+$newhot->appendChild($a6);
+$a7 = $con->createAttribute('target');
+$a7->value = '';
+$newhot->appendChild($a7);
+$a8 = $con->createAttribute('skinid');
+$a8->value = 'ht_url';
+$newhot->appendChild($a8);
+$newhotspot = $hotspots->item(0)->insertBefore($newhot);
+
+// $modxml = $con->saveXML();
+$modxml = $con->saveXML($newhot);
+echo $modxml;
+
+?>

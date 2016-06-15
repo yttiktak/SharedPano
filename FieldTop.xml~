@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<panorama id="node1">
+  <input levelingpitch="0" leveltileurl="tiles/Fieldtop/cf_%c/l_%l/c_%x/tile_%y.jpg" leveltilesize="510" levelingroll="0" height="4640" overlap="1" width="4640" levelbias="0.400" levelbiashidpi="0.400">
+    <level preload="0" height="4640" width="4640" predecode="0"/>
+    <level preload="0" height="2320" width="2320" predecode="0"/>
+    <level preload="0" height="1160" width="1160" predecode="0"/>
+    <level preload="0" height="580" width="580" predecode="0"/>
+    <level preload="1" height="290" width="290" predecode="1"/>
+    <preview strip="1" color="0x808080"/>
+  </input>
+  <view pannorth="0" fovmode="0">
+    <start tilt="0" fov="70" pan="0"/>
+    <min tilt="-18.7462" fov="5" pan="-180"/>
+    <max tilt="18.7462" fov="120" pan="180"/>
+  </view>
+  <userdata datetime="2016:04:26 10:22:33" info="" comment="" tags="Fieldtop" description="" copyright="" author="" source="" longitude="" title="FieldTop" latitude=""/>
+  <hotspots height="20" width="180" wordwrap="1">
+    <label backgroundcolor="0xffffff" textalpha="1" height="20" bordercolor="0x000000" borderalpha="1" width="180" background="1" wordwrap="1" textcolor="0x000000" enabled="1" backgroundalpha="1" borderradius="1" border="1"/>
+    <polystyle mode="0" backgroundcolor="0x0000ff" bordercolor="0x0000ff" borderalpha="1" backgroundalpha="0.2509803921568627" handcursor="1"/>
+    <hotspot url="Causeway.xml" description="" tilt="1.88" id="Point01" title="Causeway" pan="9.77" skinid="ht_url" target=""/>
+    <hotspot url="Sward.xml" description="" tilt="-7.94" id="Point02" title="Sward" pan="-3.36" skinid="ht_url" target=""/>
+    <hotspot url="Stair.xml" description="" tilt="-4.42" id="Point03" title="Bottom Stairs" pan="-22.26" skinid="ht_url" target=""/>
+    <hotspot url="Porch3.xml" description="" tilt="-2.96" id="Point04" title="Lower Deck" pan="-32.59" skinid="ht_url" target=""/>
+    <hotspot url="Porch2.xml" description="" tilt="-1.63" id="Point05" title="Middle Deck" pan="-45.77" skinid="ht_url" target=""/>
+    <hotspot url="Porch1.xml" description="" tilt="0.72" id="Point06" title="Upper Deck" pan="-60.79" skinid="ht_url" target=""/>
+    <hotspot url="ParkingLotx.xml" description="BarkigLot" tilt="0" id="Point07" title="Parking Lot" pan="-71.53" skinid="ht_url" target="-154/-3/30"/>
+  </hotspots>
+  <media/>
+  <transition softedge="0" zoomfov="20" blendtime="1" type="crossdissolve" zoomoutpause="1" zoomout="0" enabled="0" zoomin="0" blendcolor="0x000000" zoomspeed="2"/>
+  <control dblclickfullscreen="0" contextfullscreen="0" lockedkeyboardzoom="0" lockedwheel="0" hideabout="0" speedwheel="1" lockedmouse="0" lockedkeyboard="0" invertwheel="0" sensitivity="8" simulatemass="1" invertcontrol="1"/>
+</panorama>

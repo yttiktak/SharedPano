@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<panorama id="node1">
+  <input levelbiashidpi="0.400" levelbias="0.400" overlap="1" width="4669" height="4669" levelingroll="0" levelingpitch="0" leveltileurl="tiles/Landing/cf_%c/l_%l/c_%x/tile_%y.jpg" leveltilesize="510">
+    <level preload="0" predecode="0" width="4669" height="4669"/>
+    <level preload="0" predecode="0" width="2334" height="2334"/>
+    <level preload="0" predecode="0" width="1167" height="1167"/>
+    <level preload="0" predecode="0" width="583" height="583"/>
+    <level preload="1" predecode="1" width="291" height="291"/>
+    <preview strip="1" color="0x808080"/>
+  </input>
+  <viewOld fovmode="0" pannorth="0">
+    <start tilt="0" pan="0" fov="70"/>
+    <min tilt="-36.7461" pan="-180" fov="5"/>
+    <max tilt="36.7461" pan="180" fov="120"/>
+  </viewOld>
+  <view pannorth="0" fovmode="0">
+    <start fov="26.4" tilt="1.22" pan="149.66"/>
+    <min fov="5" tilt="-36.7461" pan="-180"/>
+    <max fov="120" tilt="36.7461" pan="180"/>
+  </view>
+  <userdata title="" author="" comment="" tags="PickledLoon" latitude="" datetime="2016:04:26 10:36:42" description="" source="" copyright="" info="" longitude=""/>
+  <hotspots wordwrap="1" width="180" height="20">
+    <label border="1" backgroundcolor="0xffffff" borderalpha="1" textcolor="0x000000" textalpha="1" backgroundalpha="1" wordwrap="1" width="180" height="20" bordercolor="0x000000" borderradius="1" enabled="1" background="1"/>
+    <polystyle backgroundcolor="0x0000ff" mode="0" borderalpha="1" backgroundalpha="0.2509803921568627" handcursor="1" bordercolor="0x0000ff"/>
+    <hotspot title="" url="Causeway.xml" tilt="3.42" id="Point01" pan="20.33" description="" target="_blank" skinid="ht_url"/>
+    <hotspot title="" url="Sward.xml" tilt="1.3" id="Point02" pan="144.7" description="" target="_blank" skinid="ht_url"/>
+    <hotspot title="" url="Stair.xml" tilt="5.17" id="Point03" pan="163.65" description="" target="_blank" skinid="ht_url"/>
+  </hotspots>
+  <media/>
+  <transition zoomout="0" zoomoutpause="1" softedge="0" zoomspeed="2" blendtime="1" blendcolor="0x000000" type="crossdissolve" zoomfov="20" zoomin="0" enabled="0"/>
+  <control invertcontrol="1" simulatemass="1" lockedwheel="0" hideabout="0" lockedmouse="0" sensitivity="8" contextfullscreen="0" lockedkeyboard="0" speedwheel="1" invertwheel="0" lockedkeyboardzoom="0" dblclickfullscreen="0"/>
+</panorama>

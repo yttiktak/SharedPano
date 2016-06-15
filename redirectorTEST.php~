@@ -1,0 +1,54 @@
+<html>
+<head></head>
+<body>
+<?php
+$trigger = "testy/";
+//session_start();
+//$sesNonce = $_SESSION['nonce'];
+//if (strlen($sesNonce)!=6) {
+ // echo "NONCE ERROR"; // lazy lazy. Just, ok, so I got a session, must be my user calling, right? 
+ // exit(); not while testing. 'sides, tests are not via page, so errereror allways.
+//}
+//$skinBase =  $_SESSION['skinBase'];
+
+$uri = $_SERVER[REQUEST_URI];
+$pos = strpos($uri,$trigger);
+
+$tailURI = substr($uri,$pos+strlen($trigger));
+//$filteredURI = filter_var($tailURI,FILTER_SANITIZE_URL);
+
+//skinBase will save me!! No need for tedious local file searching, and might interfere with testing.
+/**
+if (file_exists($filteredURI)) {
+	exit();// should I return 404 or something? Anyway, this prevents grabbing local files.
+}
+
+if (0!=strpos($filteredURI,$skinBase) {
+	exit(); // Reject requests not going to my proxied intent.
+}
+**/
+$lastDot = strrpos('.',$tailURI);
+$ext = substr($tailURI,$lastDot+1);
+switch $ext {
+  case 'png':
+  case 'PNG':
+    echo "header('Content-Type: image/png') <br>\n";
+    break;
+  case 'tif':
+  case 'TIF':
+    echo "header('Content-Type: image/tif') <br>\n";
+  break;
+  case 'jpg':
+  case 'JPG': 
+  default:
+   echo "header('Content-Type: image/jpeg') <br>\n";
+}  
+echo "header('Cache-Control: max-age=60000') <br>\n"; // 6000000 about a month
+// $fp = fopen($tailURI,'rb');
+// do I need to send header("Content-Length: " .. ??
+// fpassthru($fp);
+// readfile($tailURI);
+echo "<img src=\"".$tailURI."\">";
+?>
+</body>
+</html>

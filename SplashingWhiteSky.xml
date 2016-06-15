@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<panorama id="node1">
+  <input width="7500" levelbias="0.400" overlap="1" levelingpitch="0" height="7500" levelbiashidpi="0.400" leveltilesize="510" leveltileurl="tiles/splashWhiteSky/cf_%c/l_%l/c_%x/tile_%y.jpg" levelingroll="0">
+    <level width="7500" height="7500" predecode="0" preload="0"/>
+    <level width="3750" height="3750" predecode="0" preload="0"/>
+    <level width="1875" height="1875" predecode="0" preload="0"/>
+    <level width="937" height="937" predecode="0" preload="0"/>
+    <level width="468" height="468" predecode="1" preload="1"/>
+    <preview color="0x808080" strip="1"/>
+  </input>
+  <view fovmode="0" pannorth="0">
+    <start pan="-8.88" fov="17.5" tilt="-27.95"/>
+    <min pan="0" fov="2" tilt="-90"/>
+    <max pan="360" fov="60" tilt="23.7"/>
+  </view>
+  <userdata title="/home/bobby/Desktop/Pano/Causeway/LoonAgain/splashWhiteSky.tif" comment="" datetime="" latitude="" author="" source="" copyright="" info="" longitude="" description="" tags="LoonAgain"/>
+  <hotspots width="180" height="20" wordwrap="1">
+    <label width="180" background="1" enabled="1" height="20" textcolor="0x000000" backgroundcolor="0xffffff" textalpha="1" bordercolor="0x000000" backgroundalpha="1" borderradius="1" borderalpha="1" border="1" wordwrap="1"/>
+    <polystyle backgroundcolor="0x0000ff" handcursor="1" bordercolor="0x0000ff" backgroundalpha="0.2509803921568627" borderalpha="1" mode="0"/>
+    <hotspot title="ParkingLot" id="Point01" target="_blank" pan="153.8" url="ParkingLotx.xml" description="" skinid="ht_url" tilt="0.99"/>
+    <hotspot title="PickledLoon Landing" id="Point02" target="_blank" pan="149.77" url="Landing.xml" description="" skinid="ht_url" tilt="0.73"/>
+    <hotspot title="Prarie River Landing" id="Point03" target="_blank" pan="71.03" url="PrarieRiver.xml" description="" skinid="ht_url" tilt="-1.52"/>
+  </hotspots>
+  <media>
+    <image width="3456" id="Element01" rotx="0.000" height="5184" clickmode="0" stretch="1.000" handcursor="0" roty="0.000" pan="-7.650" fov="16.000" tilt="-31.610" rotz="-5.000">
+      <source url="media/IMG_1884.png"/>
+    </image>
+  </media>
+  <transition enabled="0" type="crossdissolve" zoomfov="20" blendcolor="0x000000" zoomspeed="2" zoomoutpause="1" blendtime="1" zoomout="0" zoomin="0" softedge="0"/>
+  <control invertcontrol="1" hideabout="0" lockedmouse="0" lockedwheel="0" speedwheel="1" sensitivity="8" lockedkeyboard="0" dblclickfullscreen="0" lockedkeyboardzoom="0" simulatemass="1" contextfullscreen="0" invertwheel="0"/>
+</panorama>

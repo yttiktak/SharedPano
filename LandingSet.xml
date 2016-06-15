@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<panorama id="node1">
+  <input levelbiashidpi="0.400" width="4669" leveltilesize="510" height="4669" leveltileurl="tiles/Landing/cf_%c/l_%l/c_%x/tile_%y.jpg" levelbias="0.400" overlap="1" levelingroll="0" levelingpitch="0">
+    <level width="4669" height="4669" preload="0" predecode="0"/>
+    <level width="2334" height="2334" preload="0" predecode="0"/>
+    <level width="1167" height="1167" preload="0" predecode="0"/>
+    <level width="583" height="583" preload="0" predecode="0"/>
+    <level width="291" height="291" preload="1" predecode="1"/>
+    <preview color="0x808080" strip="1"/>
+  </input>
+  <view pannorth="0" fovmode="0">
+    <start fov="26.4" tilt="1.22" pan="149.66"/>
+    <min fov="5" tilt="-36.7461" pan="-180"/>
+    <max fov="120" tilt="36.7461" pan="180"/>
+  </view>
+  <userdata title="" longitude="" comment="" info="" copyright="" latitude="" source="" tags="PickledLoon" author="" datetime="2016:04:26 10:36:42" description=""/>
+  <hotspots width="180" height="20" wordwrap="1">
+    <label backgroundcolor="0xffffff" borderalpha="1" width="180" border="1" height="20" borderradius="1" textcolor="0x000000" background="1" wordwrap="1" textalpha="1" backgroundalpha="1" enabled="1" bordercolor="0x000000"/>
+    <polystyle backgroundcolor="0x0000ff" borderalpha="1" handcursor="1" backgroundalpha="0.2509803921568627" bordercolor="0x0000ff" mode="0"/>
+    <hotspot title="" url="" target="_blank" id="Point01" skinid="ht_url" tilt="3.42" pan="20.33" description=""/>
+    <hotspot title="" url="Sward.xml" target="_blank" id="Point02" skinid="ht_url" tilt="1.3" pan="144.7" description=""/>
+    <hotspot title="" url="" target="_blank" id="Point03" skinid="ht_url" tilt="5.17" pan="163.65" description=""/>
+  </hotspots>
+  <media/>
+  <transition softedge="0" zoomin="0" type="crossdissolve" zoomspeed="2" blendcolor="0x000000" blendtime="1" zoomoutpause="1" enabled="0" zoomout="0" zoomfov="20"/>
+  <control lockedmouse="0" contextfullscreen="0" lockedwheel="0" invertwheel="0" hideabout="0" dblclickfullscreen="0" invertcontrol="1" sensitivity="8" simulatemass="1" lockedkeyboardzoom="0" speedwheel="1" lockedkeyboard="0"/>
+</panorama>
