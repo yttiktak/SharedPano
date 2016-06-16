@@ -83,9 +83,12 @@ window.setInterval(function () {
 	locHist = [];
 }, (selfTest)?12000:2000);
 
-// all had been inside this. Now, just place js after html. window.addEventListener("load", function() {
+// Now, just place js after html. Before,all had been inside this: window.addEventListener("load", function() {
 
-pano.readConfigUrlAsync(loadMe);// loadMe is injected via PHP, from query string or just ParkingLotx.xml
+
+// loadMe is injected via PHP, from query string or just ParkingLotx.xml
+// pano.readConfigUrlAsync(loadMe);
+pano.readConfigUrl(loadMe);
 
 console.log("subscribe");
 // var subscribed = false;

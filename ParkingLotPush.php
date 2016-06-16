@@ -9,12 +9,12 @@
   require('Pusher.php'); // so, on /usr/share/php it is??
 
   // might want to implement some subscriber verify here, but just not up to it yet.
-  // meanwhile, I want to allow re-laoding to change skin, so add a skin param:
+  // meanwhile, re-laoding must change skin, so add a skin param:
   $outsider = (isset($_GET['url']))?$_GET['url']:"";
   $requested = "";
   // crude hardcoded vetting of the requested url
   // in preparation for a whitelist document to test against. 
-  // could even just grep the current ParkingLotx.xml for the url .. 
+  // could even just grep the current ParkingLotx.xml for the url .. but that would limit the range to one step away.
   switch ($outsider) {
    case "https://margaretbazura.com/panos/garnerville3/pano.xml" :
     $requested = "https://margaretbazura.com/panos/garnerville3/pano.xml";
