@@ -94,9 +94,9 @@ function MySkin( player, base ) {
 		this._leadingflag.setAttribute('id','bj-lead-follow');
 		hs ='';
 		hs+='height : 52px;';
-		hs+='left : -98px;';
+		hs+='bottom : 5px;';
 		hs+='position : absolute;';
-		hs+='top : 6px;';
+		hs+='margin : 5px;';
 		hs+='visibility : inherit;';
 		hs+='width : 91px;';
 		this._leadingflag.setAttribute('style',hs);
@@ -140,7 +140,9 @@ function MySkin( player, base ) {
 			if (typeof hitten !== "undefined" ) hitten.div.onclick();
 		}
 **/
-		this._controller.appendChild(this._leadingflag);
+// _controller not found when using the cave people. 
+// better  to attach to the skin div 
+		this.divSkin.appendChild(this._leadingflag);
 	}
 	this.addFlag();
 }

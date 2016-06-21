@@ -8,6 +8,9 @@
   set_include_path(get_include_path() . PATH_SEPARATOR . $path);
   require('Pusher.php'); // so, on /usr/share/php it is??
 
+  $server = $_SERVER['SERVER_NAME']; // www.repeatingshadow.com or localhost
+  $uri = $_SERVER['REQUEST_URI'];
+
   // might want to implement some subscriber verify here, but just not up to it yet.
   // meanwhile, re-laoding must change skin, so add a skin param:
   $outsider = (isset($_GET['url']))?$_GET['url']:"";
@@ -78,6 +81,13 @@
 		<script type="text/javascript" src="pano2vrgyro.js"></script>
 		<script> // INJECTING SOME PHP VARS
 			requested = <?php echo '"'.$requested; ?>";
+			server = <?php echo '"'.$server; ?>"; // www.repeatingshadow.com or localhost
+			my_uri = <?php echo '"'.$uri; ?>";
+			console.log(my_uri);
+			console.log(server);
+			my_path = my_uri.replace(/\/[^/]*\.php$/i,"");
+			my_base = "http://"+server+my_path;
+			console.log(my_base);
 			skinBase = <?php echo '"'.$skinBase; ?>"; //requested.replace(/pano\.xml$/,""); // if blank, then blank, right??
 			skinSrc =  <?php echo '"'.$skinSrc; ?>"; // skinBase + "skin.js";
 			loadMe =  (requested=="")?"ParkingLotx.xml":"readyXml/" + requested;

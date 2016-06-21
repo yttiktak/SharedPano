@@ -1,5 +1,5 @@
 // MyPlayer.js 
-// expects skinBase skinSrc and loadMe to be set from php
+// expects skinBase skinSrc server my_uri and loadMe to be set from php
 // depends on pano2vr_player.js
 // depends on pusher.js
 // depends on ParkingLotPush.js
@@ -17,6 +17,8 @@ function extend(base,sub) {
 
 function MyPlayer( container ) {
 // NEED TO HANDLE OTHER HOT SPOT EFFECTS, PARTICULARLY THE IMAGE POP-UPS
+	my_base = "http://" + server + my_uri.replace(/[^/]*\.php$/i,"");; // http://localhost/Output/
+
 	pano2vrPlayer.apply(this,arguments);
 	this.readConfigUrlAsync = function( url ) {
 		console.log("UrlAsync: "+url); pano2vrPlayer.prototype.readConfigUrlAsync.call(this,url);
@@ -26,6 +28,9 @@ function MyPlayer( container ) {
 
 	this.bj_recent_opened = "";
 	this.openUrl = function( url, target ) {	// is called from skin.js on a hotspot click
+		/*** TODO the cave people starting page seems to escape my xml re-write. Need to detect that, and 
+		append the proxy url if needed.
+		***/
 		console.log("OpenUrl: " +url + " target: " + target);
 
 		if (!target.match(/^pushed /)) { // my flag for a change that came from a broadcast)
@@ -38,21 +43,19 @@ function MyPlayer( container ) {
 		}
 		target = target.replace(/^pushed /,'');
 
-		if (url.match(/^http.*/)) {
+		if (url.match(/^https?:/)) { // change outsider regex
 		// so, outsiders get sent to me as a query string, but if back to self, just as is.
 			if (!url.match(/ParkingLotPush\.php/i)) { // Oughta identify self url, not hard code it like this.
-				url = url.replace(/(^http.*)/i,'?url=$1');
-				// SANITIZE THIS URL PLEASE
+				url = url.replace(/(^http.*)/i,'?url=$1'); // SANITIZE THIS URL PLEASE
 			}
-			var timid = setTimeout(function() { window.location.href=url;}, 50);
+			console.log('In 10 sec going to '+url);
+			var timid = setTimeout(function() { window.location.href=url;}, 10000); // DEBUG. CHANGE BACK TO 50
 			// Mystery. Was pusher killing the teleport event when I quit the page too early?
-
-			return; // It needs this return, or it seemed to
-			// maybe exit or something, even better??
-			// script should stop here, as the window is re-loaded. Any worries about pending timeouts ??
+			return;
 		}
-		if (!url.match(/^{.*}$/i)) {
-			url = skinBase + url;
+		if (!url.match(/^{.*}$/i)) { // pass node hop through. Process else 
+			url = (skinBase =="")?my_base+url:skinBase+url;
+			url = my_base + "readyXml/" + url; // ?? 
 			console.log('skinBased url is now: '+url);
 		}
 		pano2vrPlayer.prototype.openUrl.call(this,url,target);
