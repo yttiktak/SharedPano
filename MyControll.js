@@ -1,6 +1,7 @@
 // expects skinBase skinSrc and loadMe to be set from php
+// expects selfTest and maybe bjDebug to be set prior
 // depends on pano2vr_player.js
-// depends on pusher.js
+// depends on pusher.js, should fail functional without pusher, though
 // depends on MyPano2vrPlayer.js
 // depends on skin.js or definition of pano2vrSkin
 // extends pano2vrPlayer
@@ -21,7 +22,6 @@ skin = new MySkin(pano,(skinSrc !== "skin.js")?skinBase:"");
 
 gyro=new pano2vrGyro(pano,"container"); // bobby some do some do not. Do I need to check?
 	
-var selfTest = Boolean(false);	// seems a var I set in channel was testing true. Why?
 var traj= [];
 var lastLoc = {'pan':0,'tilt':0,'yaw':0,'fov':0,'time':0};
 var leading = Boolean(false);
@@ -30,12 +30,66 @@ var leadFollowDiv = skin.findElements('LeadingFlag')[0];
 leadFollowDiv.ggTextDiv.innerText = (leading)?"LEADING0":"following0";
 
 
-var takeLead = function( lead, offer = Boolean(false) ) {
+var takeLead = function( lead, offer = Boolean(false), msg = "" ) {
 	// signal to user they are leading the tour or not
-	leadFollowDiv.ggTextDiv.innerText = (lead)?((offer)?"ready":"LEADING"):"following";
+	// to show just a message, do false,true,msg
+	// to indicate ready to lead, do true,true
+	// leading: true, following: false
+	if (typeof self.msg != 'undefined') {
+		msg = self.msg;
+	}
+	if (msg !== "") {
+		leadFollowDiv.ggTextDiv.innerText = msg; 
+		self.msg = msg;
+ 
+	} else {
+		leadFollowDiv.ggTextDiv.innerText = (lead)?((offer)?"ready":"LEADING"):"following";
+	}
 	leading = lead;
 }
-timeoutid = setTimeout( function() { takeLead( true); }, 15000); 
+
+
+console.log("try to subscribe");
+var pusher;
+var channel = {};
+if (typeof Pusher == 'undefined') { 
+ // DO SOMETHING 
+	channel.subscribed = !1; // there MIGHT be a subscribed field in channel object,but I dont care. Should I?
+	pusher = !1;
+	takeLead(!1,!0,"not talking");
+} else {
+	pusher = new Pusher('95b5a3122e42176dd240', {
+		encrypted: true,
+		authEndpoint: '../_php/pusher_auth.php' // allows anything
+	});
+	console.log(pusher);
+	channel = pusher.subscribe('private-channel');
+	channel.bind('pusher:subscription_succeeded',function() {
+	var triggered = channel.trigger('client-arrived',{'where':'somewhere'});
+		console.log('subscription ok');
+		channel.subscribed = Boolean(true);
+	});
+	channel.bind('pusher:subscription_error', function(status) {
+		console.log('subscriptioin error');
+		channel.subscribed = Boolean(false);
+	});
+	setTimeout(function() {
+		console.log("waited 10, stop trying to connect if not connected yet");
+		if (channel.subscribed) return;
+		console.log(pusher);
+		console.log(channel);
+		channel.disconnect();// really? Just saw this inside the code, try it.
+		takeLead(!1,!0,"no connection");
+	},10000);
+} // end if-else Pusher (the js loads from their site, might fail)
+
+channel.subscribed = !1; // there is a subscribed field in pusher or channel already, best not to disturb it
+console.log(channel);
+
+
+if (channel.subscribed) {
+	timeoutid = setTimeout( function() { takeLead( true); }, 15000); 
+}
 // if nothing happening 15 sec after load, I start to lead.
 
 var goto = function( cord ) {
@@ -70,9 +124,10 @@ window.setInterval(function () {
 		locHist = [];
 		return;
 	}
+	if ((!channel.subscribed)&&(!selfTest)) return;
 	takeLead( true,true);
 	if (locHist.length == 0) return;
-	if ((typeof channel !== 'undefined')&&(channel.subscribed)) {
+	if (channel.subscribed) {
 		channel.trigger('client-traj',{'id':'needs work','traj':locHist});
 	}
 	if (selfTest) {
@@ -83,35 +138,15 @@ window.setInterval(function () {
 	locHist = [];
 }, (selfTest)?12000:2000);
 
-// Now, just place js after html. Before,all had been inside this: window.addEventListener("load", function() {
+// Now I just place js after html. Had been inside the load callback: window.addEventListener("load", function() {
 
 
 // loadMe is injected via PHP, from query string or just ParkingLotx.xml
-// pano.readConfigUrlAsync(loadMe);
+// pano.readConfigUrlAsync(loadMe); // NOTE THE EXPERIMENTAL CHANGE TO A BLOCKING LOAD HERE
 pano.readConfigUrl(loadMe);
 
-console.log("subscribe");
-// var subscribed = false;
-var pusher = new Pusher('95b5a3122e42176dd240', {
-	encrypted: true,
-	authEndpoint: '../_php/pusher_auth.php' // allows anything
-});
-var channel = pusher.subscribe('private-channel');
-channel.subscribed = Boolean(false);
 
-channel.bind('pusher:subscription_succeeded',function() {
-	var triggered = channel.trigger('client-arrived',{'where':'somewhere'});
-	console.log('subscription ok');
-	channel.subscribed = Boolean(true);
-});
-channel.bind('pusher:subscription_error', function(status) {
-	console.log('subscriptioin error');
-	channel.subscribed = Boolean(false);
-});
-
-
-
-if (typeof channel !== 'undefined') {
+if (pusher) {
 	channel.bind('client-traj',function(data) {
 		if (leading) {
 			takeLead( false);
@@ -163,9 +198,8 @@ if (typeof channel !== 'undefined') {
 				case 'out': hitten.div.onmouseout(); break;
 			}
 		}
-	});
-	// locate the popup hotspot 
-} // channel bindings 
+	}); 
+} // end if channel then channel bindings 
 
 
 

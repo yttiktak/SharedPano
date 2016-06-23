@@ -88,11 +88,14 @@
 			my_path = my_uri.replace(/\/[^/]*\.php$/i,"");
 			my_base = "http://"+server+my_path;
 			console.log(my_base);
-			skinBase = <?php echo '"'.$skinBase; ?>"; //requested.replace(/pano\.xml$/,""); // if blank, then blank, right??
+			skinBase = <?php echo '"'.$skinBase; ?>"; 
+			// skinBase made via requested.replace(/pano\.xml$/,"");. If blank, then blank, right??
 			skinSrc =  <?php echo '"'.$skinSrc; ?>"; // skinBase + "skin.js";
 			loadMe =  (requested=="")?"ParkingLotx.xml":"readyXml/" + requested;
 			nonce = <?php echo '"'.$nonce;?>";
 			// de-ja vu happening here. A tinge of self doubt at its tail. Odd.
+selfTest = !1;  // global for testing the tracking loop without a Pusher connection
+bjDebug = !0;	// global my debugging 
 		</script>
 		<script type="text/javascript" src = "MyPano2vrPlayer.js"></script>
 		<script type="text/javascript" src = "MySkin.js"></script>

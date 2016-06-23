@@ -34,26 +34,24 @@ function MyPlayer( container ) {
 		console.log("OpenUrl: " +url + " target: " + target);
 
 		if (!target.match(/^pushed /)) { // my flag for a change that came from a broadcast)
-			if (typeof channel !== 'undefined') { // maybe pusher failed some other way.
-				if (channel.subscribed) {
+			if ( channel.subscribed ) { // maybe pusher failed some other way.
 				console.log("sending: " +url + " target: pushed " + target);
 				channel.trigger('client-teleport',{'uri':url,'target':'pushed '+target});
-				}
 			}
 		}
 		target = target.replace(/^pushed /,'');
 
-		if (url.match(/^https?:/)) { // change outsider regex
+		if (url.match(/^https?:/)) {
 		// so, outsiders get sent to me as a query string, but if back to self, just as is.
 			if (!url.match(/ParkingLotPush\.php/i)) { // Oughta identify self url, not hard code it like this.
 				url = url.replace(/(^http.*)/i,'?url=$1'); // SANITIZE THIS URL PLEASE
 			}
-			console.log('In 10 sec going to '+url);
-			var timid = setTimeout(function() { window.location.href=url;}, 10000); // DEBUG. CHANGE BACK TO 50
+			if (bjDebug) { console.log('In 10 sec going to '+url); }
+			var timid = setTimeout(function() { window.location.href=url;}, (bjDebug)?10000:50);
 			// Mystery. Was pusher killing the teleport event when I quit the page too early?
 			return;
 		}
-		if (!url.match(/^{.*}$/i)) { // pass node hop through. Process else 
+		if (!url.match(/^{.*}$/i)) { // pass node hop, eg {\d+}, through. Process else 
 			url = (skinBase =="")?my_base+url:skinBase+url;
 			url = my_base + "readyXml/" + url; // ?? 
 			console.log('skinBased url is now: '+url);

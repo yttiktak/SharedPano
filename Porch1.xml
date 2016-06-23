@@ -21,7 +21,7 @@
     <hotspot target="_blank" description="" skinid="ht_url" tilt="0.52" title="Vollyball Field" url="FieldTop.xml" id="Point02" pan="161.65"/>
     <hotspot target="_blank" description="" skinid="ht_url" tilt="-20.92" title="Middle Deck" url="Porch2.xml" id="Point03" pan="95.75"/>
     <hotspot target="_blank" description="" skinid="ht_url" tilt="-15.49" title="Lower Deck" url="Porch3.xml" id="Point04" pan="74.08"/>
-    <hotspot target="_blank" description="" skinid="ht_url" tilt="0.36" title="Sheri's arm" url="SheriesArm.xml" id="Point05" pan="60.48"/>
+    <hotspot target="_blank" description="" skinid="ht_url" tilt="0.36" title="Sheri's arm" url="SplashingWhiteSky.xml" id="Point05" pan="60.48"/>
   </hotspots>
   <media/>
   <transition zoomspeed="2" softedge="0" type="crossdissolve" zoomoutpause="1" blendcolor="0x000000" blendtime="1" zoomfov="20" zoomout="0" zoomin="0" enabled="0"/>
