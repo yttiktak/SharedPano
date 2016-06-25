@@ -94,6 +94,7 @@ if (channel.subscribed) {
 
 var goto = function( cord ) {
 	// That last number is speed, seems to be inverse seconds?
+	// TODO get delta time and use it. Maybe for the last (first?) step default to 2per?
 	pano.moveTo(cord.pan,cord.tilt,cord.fov,2);
 }
 var unwrap = function() { // need to compute delay times based on recorded times.
@@ -114,7 +115,7 @@ window.setInterval(function () {
 	time = d.getTime();
 	if ((lastLoc.pan!==panval)|(lastLoc.tilt!==tiltval)|(lastLoc.yaw!==yawval)|(lastLoc.fov!==fovval)) {
 		lastLoc =  {'pan':panval,'tilt':tiltval,'yaw':yawval,'fov':fovval,'time':time};
-		locHist.push(lastLoc);// watch out. Pushed by reference. Saved, cause above disconnects.
+		locHist.push(lastLoc);// watch out. Pushed by reference. Saved, cause the assign above disconnects.
 	}
 }, (selfTest)?3000:100);
 
@@ -142,7 +143,9 @@ window.setInterval(function () {
 
 
 // loadMe is injected via PHP, from query string or just ParkingLotx.xml
-// pano.readConfigUrlAsync(loadMe); // NOTE THE EXPERIMENTAL CHANGE TO A BLOCKING LOAD HERE
+// NOTE THE EXPERIMENTAL CHANGE TO A BLOCKING LOAD HERE
+
+// pano.readConfigUrlAsync(loadMe);
 pano.readConfigUrl(loadMe);
 
 

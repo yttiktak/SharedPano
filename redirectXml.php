@@ -1,4 +1,5 @@
 <?php
+// NEED TO REFLECT 404 FROM THE PROXY
 $triggerStr = "readyXml"; // I am using TEXT trigger string to get to the testing version: "TEXTyXml";
 $triggerForLevels = "ready/";
 session_start();
@@ -8,8 +9,7 @@ if (strlen($sesNonce)!=6) {
  // exit(); not while testing. 'sides, tests are not via page, so errereror allways.
 }
 
-header('Content-Type: text/xml; charset=UTF-8');
-// header('Content-Type: text/plain; charset=UTF-8'); // CHANGE for debug. Be sure to set to correct xml above
+
 
 $server = $_SERVER['SERVER_NAME']; // www.repeatingshadow.com or localhost
 $uri = $_SERVER['REQUEST_URI'];
@@ -20,7 +20,17 @@ $tailURI = substr($uri,$pos+strlen($triggerStr)+1);
 $antiTail = substr($uri,0,$pos); 				// should detect https, but I am not using it (yet)
 $redirecturl = "http://".$server.$antiTail.$triggerForLevels; // gives http://localhost/Output/ready/
 error_log("*************** redirecturl: ".$redirecturl);
-$theXml = file_get_contents($tailURI);
+
+
+if (!$theXml = file_get_contents($tailURI)) {
+	header("HTTP/1.0 404 Not Found");
+	exit(); // SEND 404 AND EXIT IF FILE NOT FOUND
+} else {
+	header('Content-Type: text/xml; charset=UTF-8');
+	// header('Content-Type: text/plain; charset=UTF-8'); 
+	// CHANGE for debug. Be sure to set to correct xml above
+}
+
 
 $newtail = preg_replace('/[^\/]*\.xml$/i','',$tailURI); // remove 'stuff.xml' from the url
 // need this to be $newtail = preg_replace('/[^\/]*(\.xml|\.swf)$/i','',$tailURI);

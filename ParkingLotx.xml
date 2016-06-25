@@ -23,8 +23,8 @@
     <hotspot tilt="-1.33" pan="26.52" target="_blank" title="Vollyball" id="Point04" skinid="ht_url" description="" url="FieldTop.xml"/>
     <hotspot tilt="-0.86" pan="6.27" target="_blank" title="Side Porch" id="Point05" skinid="ht_url" description="" url="Porch1.xml"/>
     <hotspot tilt="0.2" pan="-59.7" target="_blank" title="Trolls Under the bridge" id="Point06" skinid="ht_url" description="An early pano with extreme lighting and large gaps." url="Causeway.xml"/>
-    <hotspot tilt="-30.96" pan="179.92" target="" title="Crack In the World" id="Point07" skinid="ht_info" description="There is a crack in the world,&#xa;that is how the light gets in." url="crack.txt"/>
-    <hotspot tilt="-1.68" pan="-72.88" target="_blank" title="Splashing water" id="Point08" skinid="ht_url" description="Walk along the causeway to see a &#xa;nice detail shot of a water drop splash." url="splash.xml"/>
+    <hotspot tilt="-30.96" pan="179.92" target="" title="Crack In the World" id="Point07" skinid="ht_info" description="There is a crack in the world, that is how the light gets in." url="crack.txt"/>
+    <hotspot tilt="-1.68" pan="-72.88" target="_blank" title="Splashing water" id="Point08" skinid="ht_url" description="Walk along the causeway to see a nice detail shot of a water drop splash." url="SplashWhiteSky.xml"/>
     <hotspot tilt="-1.33" pan="17" target="_blank" title="Caves" id="Point09" skinid="ht_url" description="Visit some extraoridinary caves." url="http://www.burger.si/Jame/NovaKriznaJama/26_BosonogiRov.xml"/>
     <hotspot tilt="-4.07" pan="-1.84" target="_blank" title="Cathedral" id="Point10" skinid="ht_url" description="Visit an cathedral altar in Germany." url=""/>
     <hotspot tilt="-50.81" pan="100.86" target="" title="Info on Colorado" id="Point11" skinid="ht_info" description="above 13000 feet moutain views. A website primarily, experimental leap here." url=""/>
