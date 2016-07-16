@@ -24,7 +24,7 @@ if (0!=strpos($filteredURI,$skinBase) {
 	exit(); // Reject requests not going to my proxied intent.
 }
 **/
-$lastDot = strrpos('.',$tailURI);
+$lastDot = strrpos($tailURI,'.');
 $ext = substr($tailURI,$lastDot+1);
 error_log("uri: ".$uri);
 switch ($ext) {
@@ -39,12 +39,15 @@ switch ($ext) {
   case 'jpg':
   case 'JPG': 
   default:
+   error_log("this is considered an image/jpeg: ".$ext);
    header('Content-Type: image/jpeg');
 }  
+
 header('Cache-Control: max-age=60000'); // 6000000 about a month
 header('Expires: '.gmdate('D, d M Y H:i:s \G\M\T', time() + (60 * 60 * 24 * 30)));
-// $fp = fopen($tailURI,'rb');
-// do I need to send header("Content-Length: " .. ??
-// fpassthru($fp);
-readfile($tailURI);
+
+error_log("readfile: ".$tailURI);
+if (!@readfile($tailURI)) {
+   header('HTTP/1.0 404 Not Found'); 
+}
 ?>

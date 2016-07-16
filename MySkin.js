@@ -25,7 +25,11 @@ function MySkin( player, base ) {
 		// early in the sequence, cause I wanted to debug without needing puser subscr
 		var remoteAttr = hitten.div.getAttribute('data-remote'); // I think it returns null
 		if (typeof remoteAttr == 'undefined') {hitten.div.setAttribute('data-remote','nope');}
-		if (remoteAttr == '1') return false; // will this fail if remoteAttr is null?
+		console.log(hitten.div.ggId);
+		if ((remoteAttr == '1')||(remoteAttr == 'once')) {
+			console.log("this div has its data-remote attribute set. No further action, please");
+			return false; // will this fail if remoteAttr is null?
+		}
 		switch (hitten.div.ggId) {
 			case "ht_node" :return false; // ht_image, image_popup, hide_template
 			case "ht_url":
@@ -61,6 +65,7 @@ function MySkin( player, base ) {
 			console.log("sending the proxy click");
 			channel.trigger('client-hotspot',{'event':'click','id':id});
 		}
+		if (bjDebug) console.log("hotspotProxyClick returning normally");
 	}
 	this.hotspotProxyOver=function(id) {
 		console.log('over');
@@ -70,6 +75,7 @@ function MySkin( player, base ) {
 			console.log("sendign the proxy over");
 			channel.trigger('client-hotspot',{'event':'over','id':id});
 		}
+		if (bjDebug) console.log("hotspotProxyOver returning normally");
 	}
 	this.hotspotProxyOut=function(id) {
 		console.log('out');
@@ -79,6 +85,7 @@ function MySkin( player, base ) {
 			console.log("sendingthe proxy out");
 			channel.trigger('client-hotspot',{'event':'out','id':id});
 		}
+		if (bjDebug) console.log("hotspotProxyOut returning normally");
 	}
 	// now I can attach my lead/follow and other chat to the current skin
 	this.addFlag=function() {
@@ -133,18 +140,11 @@ function MySkin( player, base ) {
 		}
 		this._leadingflag.ggUpdatePosition=function () {
 		}
-/** testing the getHotspot and onclick fuctions :
-		this._leadingflag.onclick=function ( ) {
-			var hitten = me.player.getHotspot("Point09");
-			console.log(hitten); // ah HA.
-			if (typeof hitten !== "undefined" ) hitten.div.onclick();
-		}
-**/
-// _controller not found when using the cave people. 
-// better  to attach to the skin div 
+
 		this.divSkin.appendChild(this._leadingflag);
 	}
 	this.addFlag();
+
 }
 extend(pano2vrSkin,MySkin);
 

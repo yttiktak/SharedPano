@@ -23,7 +23,7 @@
   </hotspots>
   <media>
     <image id="Element01" height="5184" clickmode="0" tilt="-2.720" rotx="0.000" roty="0.000" fov="16.055" handcursor="0" width="3456" pan="56.800" rotz="2.000" stretch="1.000">
-      <source url="media/IMG_1834.JPG"/>
+      <source url="media/IMG_1834.png"/>
     </image>
   </media>
   <transition zoomin="0" zoomoutpause="1" blendtime="1" zoomfov="20" enabled="0" type="crossdissolve" zoomspeed="2" zoomout="0" blendcolor="0x000000" softedge="0"/>

@@ -17,7 +17,13 @@ function extend(base,sub) {
 
 function MyPlayer( container ) {
 // NEED TO HANDLE OTHER HOT SPOT EFFECTS, PARTICULARLY THE IMAGE POP-UPS
-	my_base = "http://" + server + my_uri.replace(/[^/]*\.php$/i,"");; // http://localhost/Output/
+	my_base = "http://" + server + my_uri.replace(/[^/]*\.php$/i,""); // http://localhost/Output/
+
+			console.log("bjDebug: "+bjDebug);
+			console.log("skin_base: "+skinBase);
+			console.log("server: "+server);
+			console.log("my_uri: "+my_uri);
+			console.log("my_base: "+my_base);
 
 	pano2vrPlayer.apply(this,arguments);
 	this.readConfigUrlAsync = function( url ) {
@@ -42,20 +48,42 @@ function MyPlayer( container ) {
 		target = target.replace(/^pushed /,'');
 
 		if (url.match(/^https?:/)) {
-		// so, outsiders get sent to me as a query string, but if back to self, just as is.
-			if (!url.match(/ParkingLotPush\.php/i)) { // Oughta identify self url, not hard code it like this.
+			// so, outsiders get sent as a query string, but if back to self, just as is.
+			if (!url.startsWith(my_base)) { // Oughta identify self url, not hard code it like this.
 				url = url.replace(/(^http.*)/i,'?url=$1'); // SANITIZE THIS URL PLEASE
 			}
-			if (bjDebug) { console.log('In 10 sec going to '+url); }
-			var timid = setTimeout(function() { window.location.href=url;}, (bjDebug)?10000:50);
+			console.log("server: "+server);
+			console.log("my_uri: "+my_uri);
+			console.log("my_base: "+my_base);
+			console.log("jump url: "+url);
+			if (bjDebug) alert("waiting to jump");
+			var timid = setTimeout(function() { window.location.href=url;}, 50);
 			// Mystery. Was pusher killing the teleport event when I quit the page too early?
 			return;
 		}
-		if (!url.match(/^{.*}$/i)) { // pass node hop, eg {\d+}, through. Process else 
+		if (!url.match(/^{.*}$/i)) { // pass node hop, eg {\d+}, through. Process else, eg xml & swf. 
 			url = (skinBase =="")?my_base+url:skinBase+url;
 			url = my_base + "readyXml/" + url; // ?? 
+
+			console.log("skin_base: "+skinBase);
+			console.log("server: "+server);
+			console.log("my_uri: "+my_uri);
+			console.log("my_base: "+my_base);
 			console.log('skinBased url is now: '+url);
+/***
+OpenUrl: 12_NovaKriznaJama_2009.swf target:  MyPano2vrPlayer.js:34:3
+sending: 12_NovaKriznaJama_2009.swf target: pushed  MyPano2vrPlayer.js:38:5
+"skinBased url is now: http://www.repeatingshadow.com/Output/ParkingLotPush.php?url=http://www.burger.si/Jame/NovaKriznaJama/26_BosonogiRov.xmlreadyXml/http://www.burger.si/Jame/NovaKriznaJama/12_NovaKriznaJama_2009.swf" MyPano2vrPlayer.js:57:4
+out MySkin.js:81:3
+ MySkin.js:82:3
+undefined MySkin.js:22:3
+
+ok, so this gets confused with the query version of the url:
+http://www.repeatingshadow.com/Output/ParkingLotPush.php?url=http://www.burger.si/Jame/NovaKriznaJama/26_BosonogiRov.xml
+
+***/
 		}
+
 		pano2vrPlayer.prototype.openUrl.call(this,url,target);
 		this.bj_recent_opened = url;
 	}

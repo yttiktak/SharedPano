@@ -9,7 +9,9 @@
   require('Pusher.php'); // so, on /usr/share/php it is??
 
   $server = $_SERVER['SERVER_NAME']; // www.repeatingshadow.com or localhost
-  $uri = $_SERVER['REQUEST_URI'];
+  $urio = $_SERVER['REQUEST_URI'];
+  
+  $uri = preg_replace("/\?.*$/","",$urio); // strip off the query string
 
   // might want to implement some subscriber verify here, but just not up to it yet.
   // meanwhile, re-laoding must change skin, so add a skin param:

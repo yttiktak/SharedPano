@@ -24,36 +24,43 @@ gyro=new pano2vrGyro(pano,"container"); // bobby some do some do not. Do I need 
 	
 var traj= [];
 var lastLoc = {'pan':0,'tilt':0,'yaw':0,'fov':0,'time':0};
-var leading = Boolean(false);
-var timeoutid = 0;
+var leading = !1;
+var takeLeadTimeoutId = 0;
+
 var leadFollowDiv = skin.findElements('LeadingFlag')[0];
+var statusDiv = skin.findElements('ReportStatus')[0];
+var chatDiv = skin.findElements('ChatText')[0];
+
 leadFollowDiv.ggTextDiv.innerText = (leading)?"LEADING0":"following0";
 
-
+var reportStatus = function(msg) {
+	if (typeof statusDiv != 'undefined') ggTextDiv.innerText = msg;
+}
+var showChatText = function(msg) {
+	if (typeof chatDiv != 'undefined') ggTextDiv.innerText = msg;
+}
 var takeLead = function( lead, offer = Boolean(false), msg = "" ) {
+	// manage the state of the 'leading' boolean
 	// signal to user they are leading the tour or not
-	// to show just a message, do false,true,msg
 	// to indicate ready to lead, do true,true
 	// leading: true, following: false
-	if (typeof self.msg != 'undefined') {
-		msg = self.msg;
+
+	if (msg !== "" ) {
+		reportStatus(msg);
+		console.log("deprecated message path. Ms was: " + msg);
 	}
-	if (msg !== "") {
-		leadFollowDiv.ggTextDiv.innerText = msg; 
-		self.msg = msg;
- 
-	} else {
-		leadFollowDiv.ggTextDiv.innerText = (lead)?((offer)?"ready":"LEADING"):"following";
-	}
+
+	leadFollowDiv.ggTextDiv.innerText = (lead)?((offer)?"ready":"LEADING"):"following";
+	console.log("lead="+lead+" offer="+offer+ " msg="+msg);
+
 	leading = lead;
 }
-
 
 console.log("try to subscribe");
 var pusher;
 var channel = {};
 if (typeof Pusher == 'undefined') { 
- // DO SOMETHING 
+	console.log("NO PUSHER");
 	channel.subscribed = !1; // there MIGHT be a subscribed field in channel object,but I dont care. Should I?
 	pusher = !1;
 	takeLead(!1,!0,"not talking");
@@ -62,20 +69,27 @@ if (typeof Pusher == 'undefined') {
 		encrypted: true,
 		authEndpoint: '../_php/pusher_auth.php' // allows anything
 	});
+	console.log("made a new pusher object");
 	console.log(pusher);
 	channel = pusher.subscribe('private-channel');
 	channel.bind('pusher:subscription_succeeded',function() {
-	var triggered = channel.trigger('client-arrived',{'where':'somewhere'});
+		channel.trigger('client-arrived',{'where':'somewhere'});
 		console.log('subscription ok');
-		channel.subscribed = Boolean(true);
+		channel.subscribed = !0;
+		takeLeadTimeoutId = setTimeout( function() { takeLead( true); }, 15000); 
+		// if nothing happening 15 sec after load, I start to lead.
 	});
 	channel.bind('pusher:subscription_error', function(status) {
 		console.log('subscriptioin error');
-		channel.subscribed = Boolean(false);
+		channel.subscribed = !1;
 	});
 	setTimeout(function() {
 		console.log("waited 10, stop trying to connect if not connected yet");
-		if (channel.subscribed) return;
+		if (channel.subscribed) {
+			console.log("Is subscribed. OK, just return");
+			return;
+		}
+		console.log("yup, not subscribed. Try to shut it down");
 		console.log(pusher);
 		console.log(channel);
 		channel.disconnect();// really? Just saw this inside the code, try it.
@@ -87,10 +101,7 @@ channel.subscribed = !1; // there is a subscribed field in pusher or channel alr
 console.log(channel);
 
 
-if (channel.subscribed) {
-	timeoutid = setTimeout( function() { takeLead( true); }, 15000); 
-}
-// if nothing happening 15 sec after load, I start to lead.
+
 
 var goto = function( cord ) {
 	// That last number is speed, seems to be inverse seconds?
@@ -119,16 +130,30 @@ window.setInterval(function () {
 	}
 }, (selfTest)?3000:100);
 
+
+//***************  EVERY TWO SECONDS, SEND (or try to) WHAT IVE BEEN DOING ****************//
 window.setInterval(function () {
 
 	if (!leading) {
 		locHist = [];
+		console.log("not leading. Just zero out history and return");
 		return;
 	}
-	if ((!channel.subscribed)&&(!selfTest)) return;
+	if (!channel.subscribed){
+		if (!selfTest) {
+			console.log("not subscribed, not self testing. Not gonna send.");
+		} else {
+			console.log("subscribed, but self testing. take lead and pretend send.");
+		}
+	}
+
 	takeLead( true,true);
-	if (locHist.length == 0) return;
+	if (locHist.length == 0) {
+		console.log("lochist length zero. Nothign to send, just return");
+		return;
+	}
 	if (channel.subscribed) {
+		console.log("subscribed, and something to send, so off it goes");
 		channel.trigger('client-traj',{'id':'needs work','traj':locHist});
 	}
 	if (selfTest) {
@@ -149,13 +174,15 @@ window.setInterval(function () {
 pano.readConfigUrl(loadMe);
 
 
-if (pusher) {
+if (!pusher) {
+	console.log("no pusher!!");
+} else {
 	channel.bind('client-traj',function(data) {
 		if (leading) {
 			takeLead( false);
 		}
-		if (timeoutid != 0 ) { clearTimeout(timeoutid); }
-		timeoutid = setTimeout( function() { takeLead( true,false); }, 5000);
+		if (takeLeadTimeoutId != 0 ) { clearTimeout(takeLeadTimeoutId); }
+		takeLeadTimeoutId = setTimeout( function() { takeLead( true,false); }, 5000);
 
 		console.log('new trajectory');
 		traj = data.traj.slice(0);

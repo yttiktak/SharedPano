@@ -16,7 +16,6 @@ $uri = $_SERVER['REQUEST_URI'];
 
 $pos = strpos($uri,$triggerStr); 
 $tailURI = substr($uri,$pos+strlen($triggerStr)+1);
-// $tailURI = preg_replace('\.swf$/i','\.xml',$tailURI); // need to handle the cave people somehow
 $antiTail = substr($uri,0,$pos); 				// should detect https, but I am not using it (yet)
 $redirecturl = "http://".$server.$antiTail.$triggerForLevels; // gives http://localhost/Output/ready/
 error_log("*************** redirecturl: ".$redirecturl);
@@ -27,32 +26,35 @@ if (!$theXml = file_get_contents($tailURI)) {
 	exit(); // SEND 404 AND EXIT IF FILE NOT FOUND
 } else {
 	header('Content-Type: text/xml; charset=UTF-8');
-	// header('Content-Type: text/plain; charset=UTF-8'); 
-	// CHANGE for debug. Be sure to set to correct xml above
+	// header('Content-Type: text/plain; charset=UTF-8'); // if you want a debug view
 }
 
 
 $newtail = preg_replace('/[^\/]*\.xml$/i','',$tailURI); // remove 'stuff.xml' from the url
 // need this to be $newtail = preg_replace('/[^\/]*(\.xml|\.swf)$/i','',$tailURI);
+// nope. The swap from .swf to .xml is done in the pano2vr_player prior to download
 error_log("*************** newtail: ".$newtail);
 // now replace all  leveltileurl with redirect
 $xml1 = preg_replace('/ leveltileurl="/i', ' leveltileurl="'.$redirecturl.$newtail, $theXml);
 
 // and then the values of all url= statements for jpg or png
-$replacement = ' url="'.$redirecturl.$newtail.'$1';					// TROUBLE, WHAT ABOUT OTHER IMAGE FORMATS, EH??
+$replacement = ' url="'.$redirecturl.$newtail.'$1';
 $newxml = preg_replace('/ url="(.*jpg|.*png|.*gif|.*tif)/i', $replacement, $xml1);
 
-// ok, I used preg_replace to swap in my cors bypass urls for the links. 
-// now need to locate the hotspots where I can insert my return link.
-$con = new DOMDocument(); // SimpleXMLElement($theXml); no so much. Use DOM
-$con->loadXML($newxml); // need a dtd doco for ($con->validate()), so no validate, ok?
+// Ok, I used preg_replace to swap in my cors bypass urls for the links. 
+// Now I need to locate the hotspots where I can insert my return link.
+$con = new DOMDocument(); // Use SimpleXMLElement($theXml)? Not so much. Use DOM
+$con->loadXML($newxml); // No validate, ok? That needs a dtd doco for ($con->validate()).
 
 $panos = $con->getElementsByTagName('panorama');
 
+// determine where to put the return hotspot, based on view range
 $hookTilt = 90;
 $hookPan = 0;
-if ($view = $panos->item(0)->getElementsByTagName('view')->item(0) ) {
- if (($viewStart = $view->getElementsByTagName('start')->item(0))&&($viewMax = $view->getElementsByTagName('max')->item(0) ) ) {
+if (($view = $panos->item(0)->getElementsByTagName('view')->item(0) ) &&
+($viewStart = $view->getElementsByTagName('start')->item(0)) && 
+($viewMax = $view->getElementsByTagName('max')->item(0) ) ) 
+{
   $viewPan = $viewStart->getAttribute('pan');
   $viewTilt = $viewStart->getAttribute('tilt');
   $viewPanMax = $viewMax->getAttribute('pan');
@@ -62,7 +64,6 @@ if ($view = $panos->item(0)->getElementsByTagName('view')->item(0) ) {
    $hookPan = $viewPan + 180;
    if (($hookPan > 360)||($hookPan > $viewPanMax)) $hookPan -=360;
   }
- }
 }
 
 $hotspots = $panos->item(0)->getElementsByTagName('hotspots');
@@ -91,7 +92,7 @@ $a7 = $con->createAttribute('target');
 $a7->value = '';
 $newhot->appendChild($a7);
 $a8 = $con->createAttribute('skinid');
-$a8->value = ''; //'ht_url';
+$a8->value = 'ht_url';
 $newhot->appendChild($a8);
 $newhotspot = $hotspots->item(0)->insertBefore($newhot);
 
