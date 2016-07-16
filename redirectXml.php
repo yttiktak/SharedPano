@@ -18,7 +18,7 @@ $pos = strpos($uri,$triggerStr);
 $tailURI = substr($uri,$pos+strlen($triggerStr)+1);
 $antiTail = substr($uri,0,$pos); 				// should detect https, but I am not using it (yet)
 $redirecturl = "http://".$server.$antiTail.$triggerForLevels; // gives http://localhost/Output/ready/
-error_log("*************** redirecturl: ".$redirecturl);
+// error_log("*************** redirecturl: ".$redirecturl);
 
 
 if (!$theXml = file_get_contents($tailURI)) {
@@ -33,7 +33,7 @@ if (!$theXml = file_get_contents($tailURI)) {
 $newtail = preg_replace('/[^\/]*\.xml$/i','',$tailURI); // remove 'stuff.xml' from the url
 // need this to be $newtail = preg_replace('/[^\/]*(\.xml|\.swf)$/i','',$tailURI);
 // nope. The swap from .swf to .xml is done in the pano2vr_player prior to download
-error_log("*************** newtail: ".$newtail);
+// error_log("*************** newtail: ".$newtail);
 // now replace all  leveltileurl with redirect
 $xml1 = preg_replace('/ leveltileurl="/i', ' leveltileurl="'.$redirecturl.$newtail, $theXml);
 

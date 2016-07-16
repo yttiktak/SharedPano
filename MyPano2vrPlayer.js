@@ -37,7 +37,7 @@ function MyPlayer( container ) {
 		/*** TODO the cave people starting page seems to escape my xml re-write. Need to detect that, and 
 		append the proxy url if needed.
 		***/
-		console.log("OpenUrl: " +url + " target: " + target);
+		// console.log("OpenUrl: " +url + " target: " + target);
 
 		if (!target.match(/^pushed /)) { // my flag for a change that came from a broadcast)
 			if ( channel.subscribed ) { // maybe pusher failed some other way.
@@ -49,39 +49,30 @@ function MyPlayer( container ) {
 
 		if (url.match(/^https?:/)) {
 			// so, outsiders get sent as a query string, but if back to self, just as is.
-			if (!url.startsWith(my_base)) { // Oughta identify self url, not hard code it like this.
+			if (!url.startsWith(my_base)) {
 				url = url.replace(/(^http.*)/i,'?url=$1'); // SANITIZE THIS URL PLEASE
 			}
-			console.log("server: "+server);
-			console.log("my_uri: "+my_uri);
-			console.log("my_base: "+my_base);
-			console.log("jump url: "+url);
-			if (bjDebug) alert("waiting to jump");
+			if (bjDebug) {
+				console.log("server: "+server);
+				console.log("my_uri: "+my_uri);
+				console.log("my_base: "+my_base);
+				console.log("jump url: "+url);
+				alert("waiting to jump");
+			}
 			var timid = setTimeout(function() { window.location.href=url;}, 50);
-			// Mystery. Was pusher killing the teleport event when I quit the page too early?
+			// Pusher killing the teleport event when I quit the page too early?
 			return;
 		}
 		if (!url.match(/^{.*}$/i)) { // pass node hop, eg {\d+}, through. Process else, eg xml & swf. 
 			url = (skinBase =="")?my_base+url:skinBase+url;
 			url = my_base + "readyXml/" + url; // ?? 
-
-			console.log("skin_base: "+skinBase);
-			console.log("server: "+server);
-			console.log("my_uri: "+my_uri);
-			console.log("my_base: "+my_base);
-			console.log('skinBased url is now: '+url);
-/***
-OpenUrl: 12_NovaKriznaJama_2009.swf target:  MyPano2vrPlayer.js:34:3
-sending: 12_NovaKriznaJama_2009.swf target: pushed  MyPano2vrPlayer.js:38:5
-"skinBased url is now: http://www.repeatingshadow.com/Output/ParkingLotPush.php?url=http://www.burger.si/Jame/NovaKriznaJama/26_BosonogiRov.xmlreadyXml/http://www.burger.si/Jame/NovaKriznaJama/12_NovaKriznaJama_2009.swf" MyPano2vrPlayer.js:57:4
-out MySkin.js:81:3
- MySkin.js:82:3
-undefined MySkin.js:22:3
-
-ok, so this gets confused with the query version of the url:
-http://www.repeatingshadow.com/Output/ParkingLotPush.php?url=http://www.burger.si/Jame/NovaKriznaJama/26_BosonogiRov.xml
-
-***/
+			if (bjDebug) {
+				console.log("skin_base: "+skinBase);
+				console.log("server: "+server);
+				console.log("my_uri: "+my_uri);
+				console.log("my_base: "+my_base);
+				console.log('skinBased url is now: '+url);
+			}
 		}
 
 		pano2vrPlayer.prototype.openUrl.call(this,url,target);

@@ -26,7 +26,7 @@ if (0!=strpos($filteredURI,$skinBase) {
 **/
 $lastDot = strrpos($tailURI,'.');
 $ext = substr($tailURI,$lastDot+1);
-error_log("uri: ".$uri);
+// error_log("uri: ".$uri);
 switch ($ext) {
   case 'png':
   case 'PNG':
@@ -46,7 +46,7 @@ switch ($ext) {
 header('Cache-Control: max-age=60000'); // 6000000 about a month
 header('Expires: '.gmdate('D, d M Y H:i:s \G\M\T', time() + (60 * 60 * 24 * 30)));
 
-error_log("readfile: ".$tailURI);
+// error_log("readfile: ".$tailURI);
 if (!@readfile($tailURI)) {
    header('HTTP/1.0 404 Not Found'); 
 }

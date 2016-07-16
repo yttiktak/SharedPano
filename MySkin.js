@@ -19,13 +19,13 @@ function MySkin( player, base ) {
 	me = this;
 	var proceedWithHotspotProxy = function(id) {
 		var hitten = me.player.getHotspot(id);
-		console.log(hitten);
+		if (bjDebug) console.log(hitten);
 		if (typeof hitten == 'undefined') return false;
 
 		// early in the sequence, cause I wanted to debug without needing puser subscr
 		var remoteAttr = hitten.div.getAttribute('data-remote'); // I think it returns null
 		if (typeof remoteAttr == 'undefined') {hitten.div.setAttribute('data-remote','nope');}
-		console.log(hitten.div.ggId);
+		if (bjDebug) console.log(hitten.div.ggId);
 		if ((remoteAttr == '1')||(remoteAttr == 'once')) {
 			console.log("this div has its data-remote attribute set. No further action, please");
 			return false; // will this fail if remoteAttr is null?
@@ -47,12 +47,12 @@ function MySkin( player, base ) {
 // that is, readUrl is called, as well as this proxy for those.
 
 		if (player.bj_recent_opened != "") {
-			console.log(player.bj_recent_opened + ' already handled');
+			if (bjDebug) console.log(player.bj_recent_opened + ' already handled');
 			player.bj_recent_opened = "";
 			return;
 		}
 
-		console.log('click'+id); // looks like 'Point89' or similar
+		if (bjDebug) console.log('click'+id); // looks like 'Point89' or similar
 
 		if (!proceedWithHotspotProxy(id)) return;
 
@@ -62,27 +62,27 @@ function MySkin( player, base ) {
 
 		// need to detect echo(s) from the broadcast somehow
 		if ((typeof channel !== 'undefined') && (channel.subscribed)) {
-			console.log("sending the proxy click");
+			if (bjDebug) console.log("sending the proxy click");
 			channel.trigger('client-hotspot',{'event':'click','id':id});
 		}
 		if (bjDebug) console.log("hotspotProxyClick returning normally");
 	}
 	this.hotspotProxyOver=function(id) {
-		console.log('over');
-		console.log(id);
+		if (bjDebug) console.log('over');
+		if (bjDebug) console.log(id);
 		if (!proceedWithHotspotProxy(id)) return;
 		if ((typeof channel !== 'undefined') && (channel.subscribed)) {
-			console.log("sendign the proxy over");
+			if (bjDebug) console.log("sendign the proxy over");
 			channel.trigger('client-hotspot',{'event':'over','id':id});
 		}
 		if (bjDebug) console.log("hotspotProxyOver returning normally");
 	}
 	this.hotspotProxyOut=function(id) {
-		console.log('out');
-		console.log(id);
+		if (bjDebug) console.log('out');
+		if (bjDebug) console.log(id);
 		if (!proceedWithHotspotProxy(id)) return;
 		if ((typeof channel !== 'undefined') && (channel.subscribed)) {
-			console.log("sendingthe proxy out");
+			if (bjDebug) console.log("sendingthe proxy out");
 			channel.trigger('client-hotspot',{'event':'out','id':id});
 		}
 		if (bjDebug) console.log("hotspotProxyOut returning normally");

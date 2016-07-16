@@ -136,24 +136,24 @@ window.setInterval(function () {
 
 	if (!leading) {
 		locHist = [];
-		console.log("not leading. Just zero out history and return");
+		if (bjDebug) console.log("not leading. Just zero out history and return");
 		return;
 	}
 	if (!channel.subscribed){
 		if (!selfTest) {
-			console.log("not subscribed, not self testing. Not gonna send.");
+			if (bjDebug) console.log("not subscribed, not self testing. Not gonna send.");
 		} else {
-			console.log("subscribed, but self testing. take lead and pretend send.");
+			if (bjDebug) console.log("subscribed, but self testing. take lead and pretend send.");
 		}
 	}
 
 	takeLead( true,true);
 	if (locHist.length == 0) {
-		console.log("lochist length zero. Nothign to send, just return");
+		if (bjDebug) console.log("lochist length zero. Nothign to send, just return");
 		return;
 	}
 	if (channel.subscribed) {
-		console.log("subscribed, and something to send, so off it goes");
+		if (bjDebug) console.log("subscribed, and something to send, so off it goes");
 		channel.trigger('client-traj',{'id':'needs work','traj':locHist});
 	}
 	if (selfTest) {

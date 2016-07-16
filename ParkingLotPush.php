@@ -10,11 +10,10 @@
 
   $server = $_SERVER['SERVER_NAME']; // www.repeatingshadow.com or localhost
   $urio = $_SERVER['REQUEST_URI'];
-  
   $uri = preg_replace("/\?.*$/","",$urio); // strip off the query string
 
   // might want to implement some subscriber verify here, but just not up to it yet.
-  // meanwhile, re-laoding must change skin, so add a skin param:
+  // meanwhile, re-loading must change skin, so add a skin param:
   $outsider = (isset($_GET['url']))?$_GET['url']:"";
   $requested = "";
   // crude hardcoded vetting of the requested url
@@ -28,7 +27,7 @@
     $requested = $outsider;
   }
   $skinBase = preg_replace('/[^\/]*\.(xml|php|html)$/i','',$requested); // remove 'stuff.xml' from the url
-  // $skinBase = preg_replace("/pano\.xml/","",$requested);
+
   $_SESSION['skinBase'] = $skinBase;
   $skinSrc = $skinBase."skin.js";
   // if no skin on the remote, must use  mine, to get to my over-rides
@@ -95,9 +94,11 @@
 			skinSrc =  <?php echo '"'.$skinSrc; ?>"; // skinBase + "skin.js";
 			loadMe =  (requested=="")?"ParkingLotx.xml":"readyXml/" + requested;
 			nonce = <?php echo '"'.$nonce;?>";
-			// de-ja vu happening here. A tinge of self doubt at its tail. Odd.
+
+// de-ja vu happening here. A tinge of self doubt at its tail. Odd. Again, up higher.
 selfTest = !1;  // global for testing the tracking loop without a Pusher connection
-bjDebug = !0;	// global my debugging 
+bjDebug = !1;	// global my debugging 
+
 		</script>
 		<script type="text/javascript" src = "MyPano2vrPlayer.js"></script>
 		<script type="text/javascript" src = "MySkin.js"></script>
