@@ -8,10 +8,35 @@
   set_include_path(get_include_path() . PATH_SEPARATOR . $path);
   require('Pusher.php'); // so, on /usr/share/php it is??
 
+  $referer = $_SERVER['HTTP_REFERER'];
   $server = $_SERVER['SERVER_NAME']; // www.repeatingshadow.com or localhost
   $urio = $_SERVER['REQUEST_URI'];
   $uri = preg_replace("/\?.*$/","",$urio); // strip off the query string
 
+  // Keep track of prior visits, for link check only on first visit.
+  if (!isset($_SESSION['been_here'])) {
+    $beenHere = array();
+  } else {
+    $beenHere = $_SESSION['been_here'];
+  }
+  // Allow for some debug control via query var
+  if (isset($_GET['reset']) && ($_GET['reset'] == 0)) {
+    unset($beenHere);
+    $beenHere = array();
+  }
+  $foundAt = array_search($urio,$beenHere);
+  if ($foundAt === False ) {
+   $haveBeenHere = False;  
+   array_push($beenHere,$urio);
+  } else {
+   $haveBeenHere = True;
+  }
+ 
+  unset($_SESSION['been_here']);
+  $_SESSION['been_here'] = $beenHere;
+
+
+  
   // might want to implement some subscriber verify here, but just not up to it yet.
   // meanwhile, re-loading must change skin, so add a skin param:
   $outsider = (isset($_GET['url']))?$_GET['url']:"";
@@ -29,6 +54,10 @@
   $skinBase = preg_replace('/[^\/]*\.(xml|php|html)$/i','',$requested); // remove 'stuff.xml' from the url
 
   $_SESSION['skinBase'] = $skinBase;
+
+  session_write_close(); // free up locked session file system for possible concurrent calls
+
+
   $skinSrc = $skinBase."skin.js";
   // if no skin on the remote, must use  mine, to get to my over-rides
   if ($skinBase !=="") {
@@ -79,7 +108,7 @@
 		</div>
 		<script type="text/javascript" src="pano2vr_player.js"></script>
 		<script type="text/javascript" src=<?php echo '"'.$skinSrc; ?>"></script>
-		<script type="text/javascript" src="pano2vrgyro.js"></script>
+		<script type="text/javascript" src="MyPano2vrgyro.js"></script>
 		<script> // INJECTING SOME PHP VARS
 			requested = <?php echo '"'.$requested; ?>";
 			server = <?php echo '"'.$server; ?>"; // www.repeatingshadow.com or localhost
@@ -93,7 +122,14 @@
 			// skinBase made via requested.replace(/pano\.xml$/,"");. If blank, then blank, right??
 			skinSrc =  <?php echo '"'.$skinSrc; ?>"; // skinBase + "skin.js";
 			loadMe =  (requested=="")?"ParkingLotx.xml":"readyXml/" + requested;
+			<?php if ($haveBeenHere) { ?>
+				haveBeenHere = !0;
+			<?php } else { ?>
+				haveBeenHere = !1;
+			<?php } ?> 
+			referer = <?php echo '"'.$referer; ?>";
 			nonce = <?php echo '"'.$nonce;?>";
+
 
 // de-ja vu happening here. A tinge of self doubt at its tail. Odd. Again, up higher.
 selfTest = !1;  // global for testing the tracking loop without a Pusher connection
