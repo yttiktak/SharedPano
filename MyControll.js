@@ -25,7 +25,7 @@ skin = new MySkin(pano,(skinSrc !== "skin.js")?skinBase:"");
 
 gyro=new pano2vrGyro(pano,"container"); // Some do gyro, some do not. Do I need to check?
 	
-var traj= []; 				// Recieved trajectory; a point every 0.1 sec for apx the last second.
+var traj= []; 				// Received trajectory; a point every 0.1 sec for apx the last second.
 var locHist = [];			// Record my trajectory here, if I am leading.
 var lastLoc = {'pan':0,'tilt':0,'yaw':0,'fov':0,'time':0};
 var leading = !1;			// Flag indicating who in the group has the lead, controlls the view.
@@ -99,7 +99,7 @@ if (typeof Pusher == 'undefined') {
 		if (channel.subscribed) { return;}
 		console.log("Yup, not subscribed. Try to shut it down");
 		reportStatus("no socket");
-		channel.disconnect();// really? Just saw this inside the code, try it.
+		channel.disconnect();// really?? Just saw this inside the code, try it.
 		takeLead(!1,!0);
 	},10000);
 	channel.bind('pusher:subscription_succeeded',function() {
