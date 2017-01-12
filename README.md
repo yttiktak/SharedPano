@@ -1,4 +1,7 @@
 # SharedPano
+VR panos need to connect! I want to stay in the VR, and navigate to other people's places. VR panos are very closed in, right now. At the least, VR web rings ought to be happening, like mindedcontent creators adding VR links to each other within their worlds. What I am doing here is more equivalent to putting outside content into an i-frame, though.
+
+
 Panorama VR from Garden Gnome software makes a panorama into a VR experience. One can construct a network of leap points
 to other points of view, other panoramas, BUT Only within your own VR world. 
 
