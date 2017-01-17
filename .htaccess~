@@ -1,8 +1,0 @@
-RewriteEngine on
-RewriteRule ^TEXTyXml redirectXmlTEXT.php
-RewriteRule ^readyXml/.* redirectXml.php/$0 [L]
-RewriteRule ^ready/.* redirector.php/$0 [L]
-RewriteRule testy/ redirectorTEST.php
-<FilesMatch "\.(xml|XML|html|HTML|php|js)$">
- Header set Cache-Control "no-store, no-cache, must-revalidate, pre-check=0, post-check=0, max-age=0"
-</FilesMatch>
