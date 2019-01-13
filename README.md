@@ -1,4 +1,5 @@
 # SharedPano
+Wow. Link still works after 3 years. Lots of broken paths tho.
 VR panos need to connect! I want to stay in the VR, and navigate to other people's places. VR panos are very closed in, right now. At the least, VR web rings ought to be happening: like minded content creators adding VR links to each other within their worlds. What I am doing here is more equivalent to putting outside content into an i-frame, though.
 
 And they need to be a shared experience. I want to visit a place -with- people, we all should see the same view. 
